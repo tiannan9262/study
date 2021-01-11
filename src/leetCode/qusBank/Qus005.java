@@ -47,26 +47,29 @@ public class Qus005 {
 
     // 中心扩散法
     public static String longestPalindrome(String s) {
-        int length = s.length();
-        if (length == 1){
-            return s;
+        if (s == null || s.length() <= 0){
+            return "";
         }
-        if (length == 2 && s.charAt(0) == s.charAt(1)){
-            return s;
-        }
-        int begin = 0;
+        int maxLength = 0;
+        int start = 0;
         int end = 0;
-        for (int i = 0;i < length; i ++){
-            int j = 1;
-            while (i - j >= 0 && i + j < length && s.charAt(i - j) == s.charAt(i + j)){
-                if (j * 2 > end - begin){
-                    begin = i - j;
-                    end = i + j;
-                }
-                j ++;
+        for (int i = 0;i < s.length();i ++){
+            int len1 = getMaxPalindromeLength(s,i,i);
+            int len2 = getMaxPalindromeLength(s,i,i + 1);
+            int len = Math.max(len1,len2);
+            if (len > maxLength){
+                start = i - (len - 1) / 2;
+                end = start + len - 1;
             }
         }
-        return s.substring(begin,end + 1);
+        return s.substring(start,end);
+    }
+    public static int getMaxPalindromeLength(String s,int i,int j){
+        while (i >= 0 && j < s.length() && s.charAt(i) == s.charAt(j)){
+            i --;
+            j ++;
+        }
+        return j - i + 1;
     }
 
     public static void main(String[] args) {
