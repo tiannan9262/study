@@ -39,6 +39,7 @@ package leetCode.qusBank;
 // 👍 2945 👎 0
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -46,9 +47,39 @@ import java.util.List;
  * @Date: 2021/2/7 14:42
  */
 public class Qus015 {
-//    public List<List<Integer>> threeSum(int[] nums) {
-//
-//
-//    }
+    public static List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        int length = nums.length;
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        for (int index = 0; index < length; index ++){
+            if (index > 0 && nums[index] == nums[index - 1]){
+                continue;
+            }
+            int i = index + 1;
+            int j = length - 1;
+            while (i < j){
+                if (nums[i] + nums[j] + nums[index] > 0 || (j < length - 1 && nums[j] == nums[j + 1])){
+                    j --;
+                }
+                else if (nums[i] + nums[j] + nums[index] < 0 || (i > index + 1 && nums[i] == nums[i - 1])){
+                    i ++;
+                }
+                else if (nums[i] + nums[j] + nums[index] == 0){
+                    List<Integer> tmp = new ArrayList<>(3);
+                    tmp.add(nums[index]);
+                    tmp.add(nums[i]);
+                    tmp.add(nums[j]);
+                    res.add(tmp);
+                    i ++;
+                    j --;
+                }
+            }
+        }
+        return res;
+    }
 
+    public static void main(String[] args) {
+        int[] nums = new int[]{-1,0,1,2,-1,-4};
+        threeSum(nums);
+    }
 }
